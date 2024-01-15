@@ -21,8 +21,8 @@ class TaskCubit extends Cubit<TaskState> {
     );
     try {
       repo.fetch().listen((event) {
-        final raw = event.data() ?? {'task': []};
-        List data = raw['task'] ?? [];
+        final raw = event.data() ?? {'tasks': []};
+        List data = raw['tasks'] ?? [];
         List<TaskModel> exp = List.generate(
           data.length,
           (i) => TaskModel.fromMap(
@@ -84,6 +84,22 @@ class TaskCubit extends Cubit<TaskState> {
     } catch (e) {
       emit(state.copyWith(
         update: OrderUpdateFailed(message: e.toString()),
+      ));
+    }
+  }
+
+  Future<void> delete(int taskId) async {
+    emit(state.copyWith(
+      delete: const TaskDeleteLoading(),
+    ));
+    try {
+      await repo.delete(taskId);
+      emit(state.copyWith(
+        delete: const TaskDeleteSuccess(),
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        delete: TaskDeleteFailed(message: e.toString()),
       ));
     }
   }

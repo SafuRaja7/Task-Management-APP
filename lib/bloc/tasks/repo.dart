@@ -10,4 +10,5 @@ class TaskRepo {
 
   Future<void> update(TaskModel taskModel, int index) =>
       TaskDataProvider.update(taskModel, index);
+  Future<void> delete(int taskId) => TaskDataProvider.delete(taskId);
 }

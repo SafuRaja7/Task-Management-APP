@@ -48,6 +48,41 @@ class TaskAddFailed extends TaskAddState {
   const TaskAddFailed({super.message});
 }
 
+//delete
+@immutable
+class TaskDeleteState extends Equatable {
+  static bool match(a, b) => a.delete != b.delete;
+
+  final String? message;
+
+  const TaskDeleteState({
+    this.message,
+  });
+
+  @override
+  List<Object?> get props => [
+        message,
+      ];
+}
+
+@immutable
+class TaskDeleteDefault extends TaskDeleteState {}
+
+@immutable
+class TaskDeleteLoading extends TaskDeleteState {
+  const TaskDeleteLoading() : super();
+}
+
+@immutable
+class TaskDeleteSuccess extends TaskDeleteState {
+  const TaskDeleteSuccess() : super();
+}
+
+@immutable
+class TaskDeleteFailed extends TaskDeleteState {
+  const TaskDeleteFailed({super.message});
+}
+
 // update
 class OrderUpdateState extends Equatable {
   static bool match(a, b) => a.fetch != b.fetch;
@@ -82,10 +117,12 @@ class TaskState extends Equatable {
   final TaskAddState? add;
   final TaskFetchState? fetch;
   final OrderUpdateState? update;
+  final TaskDeleteState? delete;
   const TaskState({
     this.add,
     this.fetch,
     this.update,
+    this.delete,
   });
 
   @override
@@ -93,16 +130,20 @@ class TaskState extends Equatable {
         fetch,
         add,
         update,
+        delete,
       ];
 
   TaskState copyWith({
     TaskFetchState? fetch,
     TaskAddState? addMemory,
     OrderUpdateState? update,
+    TaskDeleteState? delete,
   }) {
     return TaskState(
       fetch: fetch ?? this.fetch,
       add: add ?? add,
+      update: update ?? update,
+      delete: delete ?? this.delete,
     );
   }
 }
@@ -113,5 +154,6 @@ class TaskStateDefault extends TaskState {
           fetch: const TaskFetchState(),
           add: const TaskAddState(),
           update: const OrderUpdateState(),
+          delete: const TaskDeleteState(),
         );
 }

@@ -1,18 +1,20 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:task_management/configs/app_typography.dart';
 
 class TaskCard extends StatelessWidget {
   final String title;
-  final String deadline;
-  final String createdAt;
+  final String description;
+  final DateTime createdAt;
   final String status;
   const TaskCard({
-    Key? key,
+    super.key,
     required this.title,
-    required this.deadline,
+    required this.description,
     required this.createdAt,
     required this.status,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class TaskCard extends StatelessWidget {
         alignment: Alignment.centerRight,
         children: [
           Positioned(
-            right: 15,
+            right: 40,
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.red,
@@ -44,7 +46,7 @@ class TaskCard extends StatelessWidget {
                 bottomRight: Radius.circular(15),
               ),
             ),
-            width: width * .7,
+            width: width * .78,
             height: height * .13,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,15 +64,22 @@ class TaskCard extends StatelessWidget {
                   ),
                   child: Center(child: Text(status)),
                 ),
-                Text(title),
-                Text(deadline),
+                Text(
+                  title,
+                  maxLines: 1,
+                ),
+                Text(
+                  description,
+                  maxLines: 1,
+                ),
               ],
             ),
           ),
           Positioned(
-            left: 4,
+            left: 0,
             child: Text(
-              createdAt,
+              DateFormat('dd/MM/yy').format(createdAt),
+              style: AppText.l2,
             ),
           ),
         ],

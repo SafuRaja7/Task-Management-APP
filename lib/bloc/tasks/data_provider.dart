@@ -18,8 +18,7 @@ class TaskDataProvider {
 
   static Future<void> add(TaskModel ordersModel) async {
     try {
-      final DocumentReference<Map<String, dynamic>> tasks =
-          getOrdersDocument();
+      final DocumentReference<Map<String, dynamic>> tasks = getOrdersDocument();
       final raw = await tasks.get();
 
       final data = raw.data() ?? {'tasks': []};
@@ -35,12 +34,11 @@ class TaskDataProvider {
 
   static Future<void> update(TaskModel taskModel, int index) async {
     try {
-      final DocumentReference<Map<String, dynamic>> tasks =
-          getOrdersDocument();
+      final DocumentReference<Map<String, dynamic>> tasks = getOrdersDocument();
       final raw = await tasks.get();
       List data = raw.data()!['tasks'];
 
-      data.sort((a, b) => b['currentDate'].compareTo(a['currentDate']));
+      data.sort((a, b) => b['createdat'].compareTo(a['createdat']));
 
       data.removeAt(index);
 
@@ -52,6 +50,20 @@ class TaskDataProvider {
       await tasks.set(
         {'tasks': data},
       );
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  static Future<void> delete(int taskId) async {
+    try {
+      final DocumentReference<Map<String, dynamic>> tasks = getOrdersDocument();
+      final raw = await tasks.get();
+      Map<String, dynamic>? map = raw.data();
+
+      List data = map!['tasks'] ?? [];
+      data.removeWhere((element) => TaskModel.fromMap(element).id == taskId);
+      await tasks.set({'tasks': data});
     } catch (e) {
       throw Exception(e.toString());
     }
