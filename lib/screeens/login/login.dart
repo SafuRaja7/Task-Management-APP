@@ -84,6 +84,7 @@ class _BodyState extends State<Login> {
                 ),
                 Space.y2!,
                 CustomTextField(
+                  initialValue: '@gmail.com',
                   name: 'email',
                   hint: 'Email address',
                   textInputType: TextInputType.emailAddress,
@@ -99,6 +100,7 @@ class _BodyState extends State<Login> {
                 ),
                 Space.y!,
                 CustomTextField(
+                  initialValue: '123456',
                   name: 'password',
                   hint: 'Password',
                   isPass: true,

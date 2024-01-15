@@ -11,11 +11,11 @@ import 'package:task_management/screeens/signup/signup.dart';
 import 'bloc/auth/cubit.dart';
 import 'firebase_options.dart';
 
-
 @pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message)async {
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
 }
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         title: 'Task management',
         debugShowCheckedModeBanner: false,
         theme: ThemeData.dark(),
-        initialRoute: AppRoutes.home,
+        initialRoute: AppRoutes.login,
         routes: {
           AppRoutes.login: (context) => const Login(),
           AppRoutes.signup: (context) => const SignUp(),
