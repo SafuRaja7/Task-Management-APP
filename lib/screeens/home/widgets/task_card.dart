@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:task_management/configs/app_typography.dart';
+import 'package:task_management/configs/space.dart';
 
 class TaskCard extends StatelessWidget {
   final String title;
@@ -22,7 +23,7 @@ class TaskCard extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     return SizedBox(
       width: width * .95,
-      height: height * .13,
+      height: height * .15,
       child: Stack(
         alignment: Alignment.centerRight,
         children: [
@@ -34,42 +35,44 @@ class TaskCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(25),
               ),
               width: width * .7,
-              height: height * .15,
+              height: height * .17,
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            decoration: const BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.only(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            decoration: BoxDecoration(
+              color: Colors.deepPurple[300],
+              borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(15),
                 bottomRight: Radius.circular(15),
               ),
             ),
             width: width * .78,
-            height: height * .13,
+            height: height * .15,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Align(
+                Align(
                   alignment: Alignment.topRight,
-                  child: Icon(Icons.more_vert),
-                ),
-                Container(
-                  width: width * .25,
-                  height: height * .035,
-                  decoration: BoxDecoration(
-                    color: Colors.amber,
-                    borderRadius: BorderRadius.circular(30),
+                  child: Container(
+                    width: width * .25,
+                    height: height * .035,
+                    decoration: BoxDecoration(
+                      color: Colors.deepPurple,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Center(
+                      child: Text(status),
+                    ),
                   ),
-                  child: Center(child: Text(status)),
                 ),
                 Text(
-                  title,
+                  'Title: $title',
                   maxLines: 1,
                 ),
+                Space.y!,
                 Text(
-                  description,
+                  'Desc : $description',
                   maxLines: 1,
                 ),
               ],

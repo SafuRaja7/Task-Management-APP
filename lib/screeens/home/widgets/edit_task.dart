@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:task_management/bloc/auth/cubit.dart';
 import 'package:task_management/bloc/notifications/cubit.dart';
 
 import 'package:task_management/configs/app.dart';
@@ -29,16 +30,29 @@ class EditTask extends StatefulWidget {
 class _EditTaskState extends State<EditTask> {
   final _formKey = GlobalKey<FormBuilderState>();
   String status = '';
+  List<String> tokens = [];
+  @override
+  void initState() {
+    super.initState();
+    final authCubit = AuthCubit.cubit(context);
+    tokens = List.from(tokens)
+      ..add(
+        authCubit.state.data!.deviceToken,
+      );
+  }
+
   @override
   Widget build(BuildContext context) {
     App.init(context);
-    final size = MediaQuery.of(context).size;
-    final height = size.height;
-    final width = size.width;
     final taskCubit = BlocProvider.of<TaskCubit>(context, listen: true);
     final notificationCubit =
         BlocProvider.of<NotificationsCubit>(context, listen: true);
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Edit Task'),
+        centerTitle: true,
+        leading: const BackButton(),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: BlocBuilder<TaskCubit, TaskState>(
@@ -59,7 +73,6 @@ class _EditTaskState extends State<EditTask> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Space.yf(10),
                         const Text(
                           'Title',
                           style: TextStyle(
@@ -143,9 +156,8 @@ class _EditTaskState extends State<EditTask> {
                                 );
 
                                 notificationCubit.sendPushNotification(
-                                  'eD3XPqtoSKmMAVzb27ZU6W:APA91bFTRwSfJ0_aeTDZoF0OcQSsz693uTYCkmDdBBIqMp6OiX2zaUJ5Tr66D_cYzP0tnefuHxwlsx6Db3qjiJtlQE7dOCVWd6BT-m8omAo9bGgx090LLZD7TbCZRYb9njVMnTlTUUC8',
-                                  body,
-                                );
+                                    'eD3XPqtoSKmMAVzb27ZU6W:APA91bFTRwSfJ0_aeTDZoF0OcQSsz693uTYCkmDdBBIqMp6OiX2zaUJ5Tr66D_cYzP0tnefuHxwlsx6Db3qjiJtlQE7dOCVWd6BT-m8omAo9bGgx090LLZD7TbCZRYb9njVMnTlTUUC8',
+                                    body);
                                 Future.delayed(
                                   const Duration(milliseconds: 700),
                                   () {

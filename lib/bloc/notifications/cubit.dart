@@ -23,10 +23,10 @@ class NotificationsCubit extends Cubit<NotificationsState> {
   final repo = NotificationsRepository();
 
   Future<void> sendPushNotification(
-      String adminToken, NotificationBody body) async {
+      String tokens, NotificationBody body) async {
     emit(const NotificationsSendLoading());
     try {
-      final data = await repo.sendPushMessage(adminToken, body);
+      final data = await repo.sendPushMessage(tokens, body);
 
       emit(NotificationsSendSuccess(data: data));
     } catch (e) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:task_management/bloc/auth/cubit.dart';
 import 'package:task_management/bloc/notifications/cubit.dart';
 import 'package:task_management/bloc/tasks/task_cubit.dart';
 import 'package:task_management/models/notifications.dart';
@@ -22,6 +23,16 @@ class AddTask extends StatefulWidget {
 class _AddTaskState extends State<AddTask> {
   final _formKey = GlobalKey<FormBuilderState>();
   DateTime selectedDate = DateTime.now();
+  List<String> tokens = [];
+  @override
+  void initState() {
+    super.initState();
+    final authCubit = AuthCubit.cubit(context);
+    tokens = List.from(tokens)
+      ..add(
+        authCubit.state.data!.deviceToken,
+      );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +43,13 @@ class _AddTaskState extends State<AddTask> {
     final taskCubit = BlocProvider.of<TaskCubit>(context, listen: true);
     final notificationCubit =
         BlocProvider.of<NotificationsCubit>(context, listen: true);
+
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Add Task'),
+        centerTitle: true,
+        leading: const BackButton(),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: FormBuilder(
@@ -42,7 +59,6 @@ class _AddTaskState extends State<AddTask> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Space.yf(10),
                   const Text(
                     'Title',
                     style: TextStyle(
