@@ -8,6 +8,7 @@ import 'package:task_management/screeens/widgets/app_button.dart';
 import 'package:task_management/screeens/widgets/custom_snackbar.dart';
 import 'package:task_management/screeens/widgets/custom_text_field.dart';
 import 'package:task_management/screeens/widgets/screen.dart';
+import 'package:task_management/utils/notification_handler.dart';
 
 import '../../configs/app.dart';
 import '../../configs/configs.dart';
@@ -23,6 +24,7 @@ class _BodyState extends State<SignUp> {
   final _formKey = GlobalKey<FormBuilderState>();
   bool next = true;
   bool driver = false;
+  String deviceId = '';
 
   @override
   Widget build(BuildContext context) {
@@ -200,6 +202,11 @@ class _BodyState extends State<SignUp> {
                     ),
                   ),
                   onPressed: () {
+                    NotificationServices notificationServices =
+                        NotificationServices();
+                    notificationServices.getDeviceToken().then((value) {
+                      deviceId = value;
+                    });
                     final isValid = _formKey.currentState!.saveAndValidate();
                     if (!isValid) return;
                     FocusScope.of(context).unfocus();
@@ -221,6 +228,7 @@ class _BodyState extends State<SignUp> {
                         data['email'],
                         password,
                         data['type'],
+                        deviceId,
                       );
                     }
                   },

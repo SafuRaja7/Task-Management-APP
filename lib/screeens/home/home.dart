@@ -77,79 +77,103 @@ class _HomeState extends State<Home> {
                   child: Text(state.message!),
                 );
               } else {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                return Stack(
+                  alignment: Alignment.bottomCenter,
                   children: [
-                    Space.yf(7),
-                    taskCubit.state.fetch!.data!.isEmpty
-                        ? const Center(
-                            child: Text('Nothing to show'),
-                          )
-                        : ListView.builder(
-                            itemCount: taskCubit.state.fetch!.data!.length,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              final e = taskCubit.state.fetch!.data![index];
-                              return Column(
-                                children: [
-                                  Slidable(
-                                    startActionPane: ActionPane(
-                                      motion: const StretchMotion(),
-                                      children: [
-                                        state.data!.type != 'User'
-                                            ? SlidableAction(
-                                                backgroundColor: Colors.red,
-                                                icon: Icons.delete,
-                                                label: 'Delete',
-                                                onPressed: (context) async {
-                                                  await taskCubit.delete(
-                                                      taskCubit.state.fetch!
-                                                          .data![index]!.id);
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Space.yf(7),
+                        taskCubit.state.fetch!.data!.isEmpty
+                            ? const Center(
+                                child: Text('Nothing to show'),
+                              )
+                            : ListView.builder(
+                                itemCount: taskCubit.state.fetch!.data!.length,
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  final e = taskCubit.state.fetch!.data![index];
+                                  return Column(
+                                    children: [
+                                      Slidable(
+                                        startActionPane: ActionPane(
+                                          motion: const StretchMotion(),
+                                          children: [
+                                            state.data!.type != 'User'
+                                                ? SlidableAction(
+                                                    backgroundColor: Colors.red,
+                                                    icon: Icons.delete,
+                                                    label: 'Delete',
+                                                    onPressed: (context) async {
+                                                      await taskCubit.delete(
+                                                          taskCubit
+                                                              .state
+                                                              .fetch!
+                                                              .data![index]!
+                                                              .id);
 
-                                                  taskCubit.fetch();
-                                                },
-                                              )
-                                            : const SizedBox(),
-                                      ],
-                                    ),
-                                    endActionPane: ActionPane(
-                                      motion: const BehindMotion(),
-                                      children: [
-                                        state.data!.type != 'User'
-                                            ? SlidableAction(
-                                                backgroundColor: Colors.orange,
-                                                icon: Icons.edit,
-                                                label: 'Edit',
-                                                onPressed: (context) {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) {
-                                                        return EditTask(
-                                                          index: index,
-                                                          task: taskCubit.state
-                                                              .fetch!.data!,
-                                                        );
-                                                      },
-                                                    ),
-                                                  );
-                                                },
-                                              )
-                                            : const SizedBox(),
-                                      ],
-                                    ),
-                                    child: TaskCard(
-                                      title: e!.title,
-                                      description: e.description,
-                                      createdAt: e.createdat,
-                                      status: e.status,
-                                    ),
-                                  ),
-                                  Space.y1!,
-                                ],
-                              );
+                                                      taskCubit.fetch();
+                                                    },
+                                                  )
+                                                : const SizedBox(),
+                                          ],
+                                        ),
+                                        endActionPane: ActionPane(
+                                          motion: const BehindMotion(),
+                                          children: [
+                                            state.data!.type != 'User'
+                                                ? SlidableAction(
+                                                    backgroundColor:
+                                                        Colors.orange,
+                                                    icon: Icons.edit,
+                                                    label: 'Edit',
+                                                    onPressed: (context) {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) {
+                                                            return EditTask(
+                                                              index: index,
+                                                              task: taskCubit
+                                                                  .state
+                                                                  .fetch!
+                                                                  .data!,
+                                                            );
+                                                          },
+                                                        ),
+                                                      );
+                                                    },
+                                                  )
+                                                : const SizedBox(),
+                                          ],
+                                        ),
+                                        child: TaskCard(
+                                          title: e!.title,
+                                          description: e.description,
+                                          createdAt: e.createdat,
+                                          status: e.status,
+                                        ),
+                                      ),
+                                      Space.y1!,
+                                    ],
+                                  );
+                                },
+                              ),
+                      ],
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const AddTask();
                             },
                           ),
+                        );
+                      },
+                      child: const Icon(Icons.add),
+                    ),
                   ],
                 );
               }
@@ -157,24 +181,24 @@ class _HomeState extends State<Home> {
           ),
         ),
       ),
-      floatingActionButton: authCubit.state.data!.type == 'Admin'
-          ? FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const AddTask();
-                    },
-                  ),
-                );
-              },
-              child: const Center(
-                child: Icon(Icons.add),
-              ),
-            )
-          : null,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: authCubit.state.data!.type == 'Admin'
+      //     ? FloatingActionButton(
+      //         onPressed: () {
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) {
+      //       return const AddTask();
+      //     },
+      //   ),
+      // );
+      //         },
+      //         child: const Center(
+      //           child: Icon(Icons.add),
+      //         ),
+      //       )
+      //     : null,
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

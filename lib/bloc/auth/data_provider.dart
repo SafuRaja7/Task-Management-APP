@@ -38,6 +38,7 @@ class AuthDataProvider {
     String email,
     String password,
     String type,
+    String deviceToken,
   ) async {
     try {
       User user = (await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -51,6 +52,7 @@ class AuthDataProvider {
         'fullName': fullName,
         'email': email,
         'type': type,
+        'deviceToken': deviceToken,
       });
 
       await user.updateDisplayName(fullName);

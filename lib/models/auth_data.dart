@@ -6,12 +6,14 @@ class AuthData {
   final String? fullName;
   final String email;
   final String type;
+  final String deviceToken;
 
   AuthData({
     required this.id,
     required this.fullName,
     required this.email,
     required this.type,
+    required this.deviceToken,
   });
 
   AuthData copyWith({
@@ -19,12 +21,14 @@ class AuthData {
     String? fullName,
     String? email,
     String? type,
+    String? deviceToken,
   }) {
     return AuthData(
       id: id ?? this.id,
       fullName: fullName ?? this.fullName,
       email: email ?? this.email,
       type: type ?? this.type,
+      deviceToken: deviceToken ?? this.deviceToken,
     );
   }
 
@@ -34,6 +38,7 @@ class AuthData {
       'fullName': fullName,
       'email': email,
       'type': type,
+      'deviceToken': deviceToken,
     };
   }
 
@@ -43,6 +48,7 @@ class AuthData {
       fullName: map['fullName'] != null ? map['fullName'] as String : null,
       email: map['email'] as String,
       type: map['type'] as String,
+      deviceToken: map['deviceToken'] as String,
     );
   }
 
@@ -53,21 +59,27 @@ class AuthData {
 
   @override
   String toString() {
-    return 'AuthData(id: $id, fullName: $fullName, email: $email, type: $type)';
+    return 'AuthData(id: $id, fullName: $fullName, email: $email, type: $type, deviceToken: $deviceToken)';
   }
 
   @override
   bool operator ==(covariant AuthData other) {
     if (identical(this, other)) return true;
-
-    return other.id == id &&
-        other.fullName == fullName &&
-        other.email == email &&
-        other.type == type;
+  
+    return 
+      other.id == id &&
+      other.fullName == fullName &&
+      other.email == email &&
+      other.type == type &&
+      other.deviceToken == deviceToken;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ fullName.hashCode ^ email.hashCode ^ type.hashCode;
+    return id.hashCode ^
+      fullName.hashCode ^
+      email.hashCode ^
+      type.hashCode ^
+      deviceToken.hashCode;
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:task_management/app_routes.dart';
+import 'package:task_management/bloc/notifications/cubit.dart';
 import 'package:task_management/bloc/tasks/task_cubit.dart';
 import 'package:task_management/screeens/home/home.dart';
 import 'package:task_management/screeens/login/login.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
         BlocProvider(create: (context) => TaskCubit()),
+        BlocProvider(create: (context) => NotificationsCubit()),
       ],
       child: MaterialApp(
         title: 'Task management',

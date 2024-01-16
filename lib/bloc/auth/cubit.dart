@@ -50,11 +50,12 @@ class AuthCubit extends Cubit<AuthState> {
     String email,
     String password,
     String type,
+    String deviceToken,
   ) async {
     emit(const AuthSignUpLoading());
     try {
       final data =
-          await AuthDataProvider.signUp(fullName, email, password, type);
+          await AuthDataProvider.signUp(fullName, email, password, type,deviceToken);
 
       emit(AuthSignUpSuccess(data: data));
     } catch (e) {

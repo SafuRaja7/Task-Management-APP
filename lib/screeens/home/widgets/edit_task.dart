@@ -2,8 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:task_management/bloc/notifications/cubit.dart';
 
 import 'package:task_management/configs/app.dart';
+import 'package:task_management/models/notifications.dart';
 
 import '../../../bloc/tasks/task_cubit.dart';
 import '../../../configs/space.dart';
@@ -34,6 +36,8 @@ class _EditTaskState extends State<EditTask> {
     final height = size.height;
     final width = size.width;
     final taskCubit = BlocProvider.of<TaskCubit>(context, listen: true);
+    final notificationCubit =
+        BlocProvider.of<NotificationsCubit>(context, listen: true);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -131,6 +135,16 @@ class _EditTaskState extends State<EditTask> {
                                 await taskCubit.updateTicket(
                                   widget.task[widget.index]!,
                                   widget.index,
+                                );
+                                final body = NotificationBody(
+                                  body: 'Admin has updated a task',
+                                  title: 'Task Updated',
+                                  createdAt: DateTime.now(),
+                                );
+
+                                notificationCubit.sendPushNotification(
+                                  'eD3XPqtoSKmMAVzb27ZU6W:APA91bFTRwSfJ0_aeTDZoF0OcQSsz693uTYCkmDdBBIqMp6OiX2zaUJ5Tr66D_cYzP0tnefuHxwlsx6Db3qjiJtlQE7dOCVWd6BT-m8omAo9bGgx090LLZD7TbCZRYb9njVMnTlTUUC8',
+                                  body,
                                 );
                                 Future.delayed(
                                   const Duration(milliseconds: 700),

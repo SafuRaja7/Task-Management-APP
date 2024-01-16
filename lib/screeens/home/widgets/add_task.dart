@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:task_management/bloc/notifications/cubit.dart';
 import 'package:task_management/bloc/tasks/task_cubit.dart';
 import 'package:task_management/models/notifications.dart';
 import 'package:task_management/models/task_model.dart';
@@ -29,6 +30,8 @@ class _AddTaskState extends State<AddTask> {
     final height = size.height;
     final width = size.width;
     final taskCubit = BlocProvider.of<TaskCubit>(context, listen: true);
+    final notificationCubit =
+        BlocProvider.of<NotificationsCubit>(context, listen: true);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -72,7 +75,7 @@ class _AddTaskState extends State<AddTask> {
                   Space.y2!,
                   Center(
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.saveAndValidate()) {
                           final form = _formKey.currentState!;
                           final data = form.value;
@@ -84,7 +87,17 @@ class _AddTaskState extends State<AddTask> {
                             createdat: DateTime.now(),
                             status: 'Open',
                           );
-                          taskCubit.add(task);
+                          await taskCubit.add(task);
+                          final body = NotificationBody(
+                            body: 'Admin has added a task',
+                            title: 'New Task Added',
+                            createdAt: DateTime.now(),
+                          );
+
+                          notificationCubit.sendPushNotification(
+                            'eD3XPqtoSKmMAVzb27ZU6W:APA91bFTRwSfJ0_aeTDZoF0OcQSsz693uTYCkmDdBBIqMp6OiX2zaUJ5Tr66D_cYzP0tnefuHxwlsx6Db3qjiJtlQE7dOCVWd6BT-m8omAo9bGgx090LLZD7TbCZRYb9njVMnTlTUUC8',
+                            body,
+                          );
 
                           Future.delayed(
                             const Duration(milliseconds: 700),
